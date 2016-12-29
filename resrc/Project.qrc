@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Main.qml</file>
+        <file>qml/qtquickcontrols2.conf</file>
+		<file>stage/stage-1.dat</file>
+    </qresource>
+</RCC>
