@@ -2,6 +2,12 @@
     <qresource prefix="/">
         <file>qml/Main.qml</file>
         <file>qml/qtquickcontrols2.conf</file>
-		<file>stage/stage-1.dat</file>
+        <file>stage/stage-1.dat</file>
+        <file>qml/component/BrickWall.qml</file>
+        <file>qml/component/ConcreteWall.qml</file>
+        <file>qml/component/Ground.qml</file>
+        <file>qml/component/Ice.qml</file>
+        <file>qml/component/Water.qml</file>
+        <file>qml/component/Wood.qml</file>
     </qresource>
 </RCC>
