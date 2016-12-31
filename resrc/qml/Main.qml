@@ -6,7 +6,8 @@ import "./component"
 
 ApplicationWindow {
 	visible: true
-	width: 780; height: 720
+	width: 240; height: 320
+	//width: 780; height: 720
 	title: qsTr("Battle City")
 
 	BrickWall {

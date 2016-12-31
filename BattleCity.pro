@@ -2,13 +2,33 @@ QT += qml quick
 
 CONFIG += c++11
 
-HEADERS +=
+HEADERS += \
+    include/command/Command.h \
+    include/command/MoveDownCommand.h \
+    include/command/MoveLeftCommand.h \
+    include/command/MoveRightCommand.h \
+    include/command/MoveUpCommand.h \
+    include/command/NoCommand.h \
+    include/command/PauseCommand.h \
+    include/command/ShotCommand.h \
+    include/Clock.h \
+    include/KeyEventFilter.h \
+    include/UserInput.h
 
 SOURCES += \
-        src/Main.cpp
+    src/command/MoveDownCommand.cpp \
+    src/command/MoveLeftCommand.cpp \
+    src/command/MoveRightCommand.cpp \
+    src/command/MoveUpCommand.cpp \
+    src/command/NoCommand.cpp \
+    src/command/PauseCommand.cpp \
+    src/command/ShotCommand.cpp\
+    src/KeyEventFilter.cpp \
+    src/Main.cpp \
+    src/UserInput.cpp
 
 RESOURCES += \
-        resrc/Project.qrc
+    resrc/Project.qrc
 
 win32:VERSION = 1.0.0.0 # major.minor.patch.build
 else:VERSION = 1.0.0    # major.minor.patch
