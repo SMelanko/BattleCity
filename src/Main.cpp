@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 
 #include "include/KeyEventFilter.h"
-#include "include/UserInput.h"
+#include "include/Game.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,10 +10,11 @@ int main(int argc, char *argv[])
 
 	QGuiApplication app{ argc, argv };
 
-	UserInput ui;
 	KeyEventFilter kef;
-	QObject::connect(&kef, &KeyEventFilter::Send, &ui, &UserInput::OnReceive);
 	app.installEventFilter(&kef);
+
+	Game g(&kef);
+	g.Play();
 
 	QQmlApplicationEngine engine;
 	engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));

@@ -12,6 +12,7 @@ HEADERS += \
     include/command/PauseCommand.h \
     include/command/ShotCommand.h \
     include/Clock.h \
+    include/Game.h \
     include/KeyEventFilter.h \
     include/UserInput.h
 
@@ -22,7 +23,8 @@ SOURCES += \
     src/command/MoveUpCommand.cpp \
     src/command/NoCommand.cpp \
     src/command/PauseCommand.cpp \
-    src/command/ShotCommand.cpp\
+    src/command/ShotCommand.cpp \
+    src/Game.cpp \
     src/KeyEventFilter.cpp \
     src/Main.cpp \
     src/UserInput.cpp
