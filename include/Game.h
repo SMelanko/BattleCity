@@ -4,7 +4,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "include/command/Command.h"
+#include "include/Command.h"
 #include "include/UserInput.h"
 
 #include <thread>

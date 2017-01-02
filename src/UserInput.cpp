@@ -1,4 +1,4 @@
-#include "include/command/NoCommand.h"
+#include "include/Command.h"
 #include "include/UserInput.h"
 
 UserInput::UserInput(QObject *parent) Q_DECL_NOEXCEPT

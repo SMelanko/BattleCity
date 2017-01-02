@@ -3,6 +3,7 @@
 #include "include/KeyEventFilter.h"
 
 #include <QDebug>
+#include <QQmlContext>
 
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }

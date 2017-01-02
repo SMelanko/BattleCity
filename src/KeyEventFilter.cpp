@@ -4,13 +4,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 
-#include "include/command/MoveDownCommand.h"
-#include "include/command/MoveLeftCommand.h"
-#include "include/command/MoveRightCommand.h"
-#include "include/command/MoveUpCommand.h"
-#include "include/command/NoCommand.h"
-#include "include/command/PauseCommand.h"
-#include "include/command/ShotCommand.h"
+#include "include/Command.h"
 
 KeyEventFilter::KeyEventFilter(QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
@@ -62,7 +56,7 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 
 	if (result) {
 		for (const auto& key : _keys) {
-			Send(MakeCommand(key));
+			Q_EMIT Send(MakeCommand(key));
 		}
 	}
 

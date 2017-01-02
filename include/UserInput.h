@@ -1,7 +1,7 @@
 #ifndef _BATTLECITY_USERINPUT_H_
 #define _BATTLECITY_USERINPUT_H_
 
-#include "include/command/Command.h"
+#include "include/Command.h"
 
 #include <QObject>
 

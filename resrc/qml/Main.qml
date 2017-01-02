@@ -9,6 +9,19 @@ ApplicationWindow {
 	width: 240; height: 320
 	//width: 780; height: 720
 	title: qsTr("Battle City")
+
+	Text {
+		x: 10; y: 10
+		width: 100; height: 100
+		visible: true
+		text: _msg.author // invokes Message::author() to get this value
+
+		Component.onCompleted: {
+			_msg.author = "Jonah" // invokes Message::setAuthor()
+			_msg.postMessage("Hello from QML", 123);
+		}
+	}
+
 /*
 	BrickWall {
 		x: 0; y: 0
