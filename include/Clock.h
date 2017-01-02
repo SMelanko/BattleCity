@@ -11,6 +11,7 @@ template<typename ClockT = std::chrono::steady_clock>
 class Clock
 {
 public:
+	/// Type alias.
 	using TimePointT = typename ClockT::time_point;
 
 public:

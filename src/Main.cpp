@@ -1,23 +1,16 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-
-#include "include/KeyEventFilter.h"
 #include "include/Game.h"
+
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-	QGuiApplication app{ argc, argv };
-
-	KeyEventFilter kef;
-	app.installEventFilter(&kef);
-
-	Game g(&kef);
-	g.Play();
-
-	QQmlApplicationEngine engine;
-	engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
-
-	return app.exec();
+	try {
+		return Game{ argc, argv }.exec();
+	} catch (const std::exception& e) {
+		qDebug() << e.what();
+	} catch (...) {
+		qDebug() << "Unhandled exception has been occurred";
+	}
 }

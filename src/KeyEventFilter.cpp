@@ -8,49 +8,87 @@
 #include "include/command/MoveLeftCommand.h"
 #include "include/command/MoveRightCommand.h"
 #include "include/command/MoveUpCommand.h"
+#include "include/command/NoCommand.h"
 #include "include/command/PauseCommand.h"
 #include "include/command/ShotCommand.h"
 
-KeyEventFilter::KeyEventFilter(QObject *parent)
+KeyEventFilter::KeyEventFilter(QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
 {
 }
 
-bool KeyEventFilter::eventFilter(QObject *watched, QEvent *event)
+bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 {
-	Q_UNUSED(watched)
-
 	bool result = false;
-	CommandShPtr cmd = Q_NULLPTR;
 
 	if (event->type() == QEvent::KeyPress) {
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		if (key == Qt::Key_Left) {
-			cmd = std::make_shared<MoveLeftCommand>();
+		qDebug() << "QEvent::KeyPress";
+
+		switch (key) {
+		case Qt::Key_Left:
+		case Qt::Key_Up:
+		case Qt::Key_Right:
+		case Qt::Key_Down:
+		case Qt::Key_Space:
+			if (!ke->isAutoRepeat()) {
+				_keys.insert(key);
+			}
 			result = true;
-		} else if (key == Qt::Key_Up) {
-			cmd = std::make_shared<MoveUpCommand>();
+			break;
+		case Qt::Key_Return:
+			_keys.clear();
+			_keys.insert(key);
 			result = true;
-		} else if (key == Qt::Key_Right) {
-			cmd = std::make_shared<MoveRightCommand>();
+			break;
+		}
+	} else if (event->type() == QEvent::KeyRelease) {
+		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
+		const auto key = ke->key();
+
+		switch (key) {
+		case Qt::Key_Left:
+		case Qt::Key_Up:
+		case Qt::Key_Right:
+		case Qt::Key_Down:
+		case Qt::Key_Space:
+			_keys.erase(key);
 			result = true;
-		} else if (key == Qt::Key_Down) {
-			cmd = std::make_shared<MoveDownCommand>();
-			result = true;
-		} else if (key == Qt::Key_Space) {
-			cmd = std::make_shared<ShotCommand>();
-			result = true;
-		} else if (key == Qt::Key_Return) {
-			cmd = std::make_shared<PauseCommand>();
-			result = true;
+			break;
 		}
 	}
 
-	if (result && cmd) {
-		Send(cmd);
+	if (result) {
+		for (const auto& key : _keys) {
+			Send(MakeCommand(key));
+		}
 	}
 
 	return result;
+}
+
+KeyEventFilter::KeyCode KeyEventFilter::GetKey(QEvent* event) const
+{
+	return static_cast<QKeyEvent *>(event)->key();
+}
+
+CommandShPtr KeyEventFilter::MakeCommand(const KeyCode key) const
+{
+	if (key == Qt::Key_Left) {
+		return std::make_shared<MoveLeftCommand>();
+	} else if (key == Qt::Key_Up) {
+		return std::make_shared<MoveUpCommand>();
+	} else if (key == Qt::Key_Right) {
+		return std::make_shared<MoveRightCommand>();
+	} else if (key == Qt::Key_Down) {
+		return std::make_shared<MoveDownCommand>();
+	} else if (key == Qt::Key_Space) {
+		return std::make_shared<ShotCommand>();
+	} else if (key == Qt::Key_Return) {
+		return std::make_shared<PauseCommand>();
+	} else {
+		return std::make_shared<NoCommand>();
+	}
 }

@@ -1,44 +1,50 @@
 #ifndef _BATTLECITY_GAME_H_
 #define _BATTLECITY_GAME_H_
 
-#include <QObject>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
+#include "include/command/Command.h"
 #include "include/UserInput.h"
 
 #include <thread>
 
-class KeyEventFilter;
-
-class Game : public QObject
+class Game : public QGuiApplication
 {
 	Q_OBJECT
 
 public:
-	explicit Game(KeyEventFilter *kef, QObject *parent = Q_NULLPTR);
-
-	~Game() noexcept;
-
-public:
-	/// Starts game.
-	void Play();
+	/// Constructor.
+	Game(int argc, char *argv[]) Q_DECL_NOEXCEPT;
+	/// Destructor.
+	~Game() Q_DECL_NOEXCEPT;
 
 private:
+	/// Runs game main loop.
+	void MainLoop();
 	/// Draws game onjects.
 	void Render();
-	/// Runs game main loop
-	void Run();
+	/// Starts game.
+	void Start();
+	/// Stops game.
+	void Stop();
 	/// Update game objects.
-	void Update();
+	void Update(CommandShPtr cmd);
 
 private:
-	static const double MS_PER_UPDATE;
+	/// (Milliseconds in 1 second) / FPS.
+	const double MS_PER_UPDATE = 1000.0 / 60.0;
 
-	/// Game state.
-	std::atomic<bool> _running;
-	/// Thread for main loop.
-	std::thread _t;
-	/// User input.
+	/// User input handler.
 	UserInput _ui;
+	/// GUI engine.
+	QQmlApplicationEngine _engine;
+
+	/// TODO Game state.
+	std::atomic<bool> _running;
+	int i;
+	/// Thread for main loop.
+	std::thread _mlThread;
 };
 
 #endif // _BATTLECITY_GAME_H_

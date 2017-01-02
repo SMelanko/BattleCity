@@ -4,53 +4,70 @@
 
 #include <QDebug>
 
-const double Game::MS_PER_UPDATE = 1000.0 / 60.0;
-
-Game::Game(KeyEventFilter *kef, QObject *parent)
-	: QObject{ parent }
+Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
+	: QGuiApplication{ argc, argv }
 {
+	KeyEventFilter* kef = new KeyEventFilter{ this };
+	installEventFilter(kef);
 	QObject::connect(kef, &KeyEventFilter::Send, &_ui, &UserInput::OnReceive);
+
+	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
+
+	Start();
+#if 0
+	auto f = [this] () {
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		_running = false;
+	};
+	std::thread t{f};
+	t.detach();
+#endif
 }
 
-Game::~Game() noexcept
+Game::~Game() Q_DECL_NOEXCEPT
 {
-	_running = false;
-	_t.join();
+	Stop();
+}
+
+void Game::MainLoop()
+{
+	while (_running) {
+		const auto start = Clock<>::Now();
+
+		auto cmd = _ui.Process();
+		Update(cmd);
+		Render();
+
+		const auto end = Clock<>::Now();
+		const auto elapsed = Clock<>::Duration(start, end);
+		if (elapsed < MS_PER_UPDATE) {
+			const int64_t val = MS_PER_UPDATE - elapsed - 1;
+			std::this_thread::sleep_for(std::chrono::milliseconds(val));
+		}
+	}
 }
 
 void Game::Render()
 {
 }
 
-void Game::Run()
+void Game::Start()
 {
-	auto previous = Clock<>::Now();
-	auto lag = 0.0;
-
-	while (_running) {
-		const auto current = Clock<>::Now();
-		const auto elapsed = Clock<>::Duration(previous, current);
-		previous = current;
-		lag += elapsed;
-
-		auto cmd = _ui.Process();
-		cmd->Execute();
-
-		while (lag >= MS_PER_UPDATE) {
-			Update();
-			lag -= MS_PER_UPDATE;
-		}
-
-		Render();
-	}
-}
-
-void Game::Play()
-{
-	_t = std::thread{ &Game::Run, this };
 	_running = true;
+	_mlThread = std::thread{ &Game::MainLoop, this };
+
+	qDebug() << "Main loop started";
 }
 
-void Game::Update()
+void Game::Stop()
 {
+	_running = false;
+	_mlThread.join();
+
+	qDebug() << "Main loop stopped";
+}
+
+void Game::Update(CommandShPtr cmd)
+{
+	cmd->Execute();
 }

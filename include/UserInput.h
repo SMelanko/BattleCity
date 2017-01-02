@@ -17,7 +17,8 @@ class UserInput : public QObject
 	Q_OBJECT
 
 public:
-	explicit UserInput(QObject *parent = Q_NULLPTR);
+	/// Constructor.
+	explicit UserInput(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 public:
 	/// Processes user input info - sequence of keyboard keys.

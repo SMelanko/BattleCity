@@ -9,7 +9,7 @@ ApplicationWindow {
 	width: 240; height: 320
 	//width: 780; height: 720
 	title: qsTr("Battle City")
-
+/*
 	BrickWall {
 		x: 0; y: 0
 	}
@@ -33,4 +33,5 @@ ApplicationWindow {
 	Wood {
 		x: 100; y: 0
 	}
+*/
 }

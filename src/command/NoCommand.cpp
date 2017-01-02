@@ -4,5 +4,5 @@
 
 void NoCommand::Execute() noexcept
 {
-	qDebug() << QStringLiteral("NoCommand::Execute");
+	//qDebug() << QStringLiteral("NoCommand::Execute");
 }
