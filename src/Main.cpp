@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
 	} catch (const std::exception& e) {
 		qDebug() << e.what();
 	} catch (...) {
-		qDebug() << "Unhandled exception has been occurred";
+		qDebug() << QStringLiteral("Unhandled exception has been occurred");
 	}
 }

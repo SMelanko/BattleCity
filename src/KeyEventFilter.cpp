@@ -19,7 +19,7 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		qDebug() << QStringLiteral("QEvent::KeyPress");
+		//qDebug() << QStringLiteral("QEvent::KeyPress");
 
 		switch (key) {
 		case Qt::Key_Left:
@@ -37,7 +37,7 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		qDebug() << QStringLiteral("QEvent::KeyRelease");
+		//qDebug() << QStringLiteral("QEvent::KeyRelease");
 
 		switch (key) {
 		case Qt::Key_Left:
@@ -77,8 +77,6 @@ CommandShPtr KeyEventFilter::MakeCommand(const KeyCode key) const
 		return std::make_shared<MoveDownCommand>();
 	} else if (key == Qt::Key_Space) {
 		return std::make_shared<ShotCommand>();
-	} else if (key == Qt::Key_Return) {
-		return std::make_shared<PauseCommand>();
 	} else {
 		return std::make_shared<NoCommand>();
 	}
