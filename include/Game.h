@@ -22,13 +22,13 @@ public:
 private:
 	/// Runs game main loop.
 	void MainLoop();
-	/// Draws game onjects.
+	/// Draws the game.
 	void Render();
 	/// Starts game.
 	void Start();
 	/// Stops game.
 	void Stop();
-	/// Update game objects.
+	/// Advances the game simulation one step.
 	void Update(CommandShPtr cmd);
 
 private:
@@ -40,9 +40,8 @@ private:
 	/// GUI engine.
 	QQmlApplicationEngine _engine;
 
-	/// TODO Game state.
+	/// TODO: Game state. Just for now.
 	std::atomic<bool> _running;
-	int i;
 	/// Thread for main loop.
 	std::thread _mlThread;
 };

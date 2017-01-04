@@ -24,9 +24,5 @@ CommandShPtr UserInput::Process()
 		}
 	}
 
-	if (!cmd) {
-		cmd = std::make_shared<NoCommand>();
-	}
-
-	return cmd;
+	return (cmd) ? cmd : std::make_shared<NoCommand>();
 }

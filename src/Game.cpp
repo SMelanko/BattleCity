@@ -2,9 +2,6 @@
 #include "include/Game.h"
 #include "include/KeyEventFilter.h"
 
-#include <QDebug>
-#include <QQmlContext>
-
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }
 {
@@ -15,14 +12,6 @@ Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
 
 	Start();
-#if 0
-	auto f = [this] () {
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-		_running = false;
-	};
-	std::thread t{f};
-	t.detach();
-#endif
 }
 
 Game::~Game() Q_DECL_NOEXCEPT
@@ -56,16 +45,12 @@ void Game::Start()
 {
 	_running = true;
 	_mlThread = std::thread{ &Game::MainLoop, this };
-
-	qDebug() << "Main loop started";
 }
 
 void Game::Stop()
 {
 	_running = false;
 	_mlThread.join();
-
-	qDebug() << "Main loop stopped";
 }
 
 void Game::Update(CommandShPtr cmd)

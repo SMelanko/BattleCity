@@ -19,7 +19,7 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		qDebug() << "QEvent::KeyPress";
+		qDebug() << QStringLiteral("QEvent::KeyPress");
 
 		switch (key) {
 		case Qt::Key_Left:
@@ -32,15 +32,12 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 			}
 			result = true;
 			break;
-		case Qt::Key_Return:
-			_keys.clear();
-			_keys.insert(key);
-			result = true;
-			break;
 		}
 	} else if (event->type() == QEvent::KeyRelease) {
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
+
+		qDebug() << QStringLiteral("QEvent::KeyRelease");
 
 		switch (key) {
 		case Qt::Key_Left:
