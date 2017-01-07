@@ -45,6 +45,7 @@ private:
 	/// Thread for main loop.
 	std::thread _mlThread;
 
+	/// Instance of the user tank.
 	TankShPtr _userTank;
 };
 

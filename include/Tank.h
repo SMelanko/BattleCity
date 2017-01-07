@@ -125,6 +125,7 @@ private:
 	BodyImg _body;
 };
 
+/// Tank type alias.
 using TankShPtr = std::shared_ptr<Tank>;
 
 ///
