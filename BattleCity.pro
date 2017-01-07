@@ -8,6 +8,7 @@ HEADERS += \
     include/Game.h \
     include/KeyEventFilter.h \
     include/Tank.h \
+    include/TankFactory.h \
     include/UserInput.h
 
 SOURCES += \
@@ -16,7 +17,8 @@ SOURCES += \
     src/KeyEventFilter.cpp \
     src/Main.cpp \
     src/Tank.cpp \
-    src/UserInput.cpp
+    src/TankFactory.cpp \
+    src/UserInput.cpp \
 
 RESOURCES += \
     resrc/Project.qrc

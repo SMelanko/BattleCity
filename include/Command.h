@@ -20,7 +20,7 @@ public:
 	virtual void execute() Q_DECL_NOEXCEPT = 0;
 };
 
-/// Command type alias.
+/// Command alias.
 using CommandShPtr = std::shared_ptr<Command>;
 
 ///

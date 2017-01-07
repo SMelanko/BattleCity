@@ -1,14 +1,14 @@
 #include "include/Clock.h"
 #include "include/Game.h"
 #include "include/KeyEventFilter.h"
+#include "include/TankFactory.h"
 
 #include <QQmlContext>
 
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }
 {
-	_userTank = std::make_shared<Tank>(
-		Tank::Coordinates{ 10, 10 }, Tank::UP, 100, 100, 1, 3, "../img/tank-user.png");
+	_userTank = UserTankFactory{}.create();
 
 	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };
 	installEventFilter(kef);
