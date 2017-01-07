@@ -6,22 +6,18 @@ UserInput::UserInput(QObject *parent) Q_DECL_NOEXCEPT
 {
 }
 
-void UserInput::OnReceive(CommandShPtr cmd)
+void UserInput::onReceive(CommandShPtr cmd)
 {
-	std::lock_guard<std::mutex> l{ _mut };
 	_cmds.push(cmd);
 }
 
-CommandShPtr UserInput::Process()
+CommandShPtr UserInput::process()
 {
 	CommandShPtr cmd = Q_NULLPTR;
 
-	{
-		std::lock_guard<std::mutex> l{ _mut };
-		if (!_cmds.empty()) {
-			cmd = _cmds.front();
-			_cmds.pop();
-		}
+	if (!_cmds.empty()) {
+		cmd = _cmds.front();
+		_cmds.pop();
 	}
 
 	return (cmd) ? cmd : std::make_shared<NoCommand>();

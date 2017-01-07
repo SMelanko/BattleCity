@@ -2,37 +2,60 @@
 
 #include <QDebug>
 
-void MoveLeftCommand::Execute() noexcept
+MoveLeftCommand::MoveLeftCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+	: _tank{ tank }
 {
-	qDebug() << QStringLiteral("MoveLeftCommand::Execute");
 }
 
-void MoveUpCommand::Execute() noexcept
+void MoveLeftCommand::execute() Q_DECL_NOEXCEPT
 {
-	qDebug() << QStringLiteral("MoveUpCommand::Execute");
+	_tank->setDirection(Tank::LEFT);
+	_tank->Move(-_tank->velocity(), 0);
 }
 
-void MoveRightCommand::Execute() noexcept
+MoveUpCommand::MoveUpCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+	: _tank{ tank }
 {
-	qDebug() << QStringLiteral("MoveRightCommand::Execute");
 }
 
-void MoveDownCommand::Execute() noexcept
+void MoveUpCommand::execute() Q_DECL_NOEXCEPT
 {
-	qDebug() << QStringLiteral("MoveDownCommand::Execute");
+	_tank->setDirection(Tank::UP);
+	_tank->Move(0, -_tank->velocity());
 }
 
-void ShotCommand::Execute() noexcept
+MoveRightCommand::MoveRightCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+	: _tank{ tank }
+{
+}
+
+void MoveRightCommand::execute() Q_DECL_NOEXCEPT
+{
+	_tank->setDirection(Tank::RIGHT);
+	_tank->Move(_tank->velocity(), 0);
+}
+
+MoveDownCommand::MoveDownCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+	: _tank{ tank }
+{
+}
+
+void MoveDownCommand::execute() Q_DECL_NOEXCEPT
+{
+	_tank->setDirection(Tank::DOWN);
+	_tank->Move(0, _tank->velocity());
+}
+
+ShotCommand::ShotCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+	: _tank{ tank }
+{
+}
+
+void ShotCommand::execute() Q_DECL_NOEXCEPT
 {
 	qDebug() << QStringLiteral("ShotCommand::Execute");
 }
 
-void NoCommand::Execute() noexcept
+void NoCommand::execute() Q_DECL_NOEXCEPT
 {
-	//qDebug() << QStringLiteral("NoCommand::Execute");
-}
-
-void PauseCommand::Execute() noexcept
-{
-	qDebug() << QStringLiteral("PauseCommand::Execute");
 }

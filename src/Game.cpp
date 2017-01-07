@@ -2,34 +2,40 @@
 #include "include/Game.h"
 #include "include/KeyEventFilter.h"
 
+#include <QQmlContext>
+
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }
 {
-	KeyEventFilter* kef = new KeyEventFilter{ this };
-	installEventFilter(kef);
-	QObject::connect(kef, &KeyEventFilter::Send, &_ui, &UserInput::OnReceive);
+	_userTank = std::make_shared<Tank>(
+		Tank::Coordinates{ 10, 10 }, Tank::UP, 100, 100, 1, 3, "../img/tank-user.png");
 
+	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };
+	installEventFilter(kef);
+	QObject::connect(kef, &KeyEventFilter::send, &_ui, &UserInput::onReceive);
+
+	_engine.rootContext()->setContextProperty("userTank", _userTank.get());
 	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
 
-	Start();
+	start();
 }
 
 Game::~Game() Q_DECL_NOEXCEPT
 {
-	Stop();
+	stop();
 }
 
-void Game::MainLoop()
+void Game::mainLoop()
 {
 	while (_running) {
-		const auto start = Clock<>::Now();
+		const auto start = Clock<>::now();
 
-		auto cmd = _ui.Process();
-		Update(cmd);
-		Render();
+		auto cmd = _ui.process();
+		update(cmd);
+		render();
 
-		const auto end = Clock<>::Now();
-		const auto elapsed = Clock<>::Duration(start, end);
+		const auto end = Clock<>::now();
+		const auto elapsed = Clock<>::duration(start, end);
 		if (elapsed < MS_PER_UPDATE) {
 			const int64_t val = MS_PER_UPDATE - elapsed - 1;
 			std::this_thread::sleep_for(std::chrono::milliseconds(val));
@@ -37,23 +43,25 @@ void Game::MainLoop()
 	}
 }
 
-void Game::Render()
+void Game::render()
 {
 }
 
-void Game::Start()
+void Game::start()
 {
 	_running = true;
-	_mlThread = std::thread{ &Game::MainLoop, this };
+	_mlThread = std::thread{ &Game::mainLoop, this };
 }
 
-void Game::Stop()
+void Game::stop()
 {
-	_running = false;
-	_mlThread.join();
+	if (_mlThread.joinable()) {
+		_running = false;
+		_mlThread.join();
+	}
 }
 
-void Game::Update(CommandShPtr cmd)
+void Game::update(CommandShPtr cmd)
 {
-	cmd->Execute();
+	cmd->execute();
 }

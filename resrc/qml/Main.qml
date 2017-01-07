@@ -6,33 +6,11 @@ import "./component"
 
 ApplicationWindow {
 	visible: true
-	width: 240; height: 320
-	//width: 780; height: 720
+	width: 480; height: 320
 	title: qsTr("Battle City")
+	color: "#404040"
 
-/*
-	BrickWall {
-		x: 0; y: 0
+	Tank {
+		id: userTankId
 	}
-
-	ConcreteWall {
-		x: 20; y: 0
-	}
-
-	Ground {
-		x: 40; y: 0
-	}
-
-	Ice {
-		x: 60; y: 0
-	}
-
-	Water {
-		x: 80; y: 0
-	}
-
-	Wood {
-		x: 100; y: 0
-	}
-*/
 }

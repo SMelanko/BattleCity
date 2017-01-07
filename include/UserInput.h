@@ -5,7 +5,6 @@
 
 #include <QObject>
 
-#include <mutex>
 #include <queue>
 
 ///
@@ -17,22 +16,24 @@ class UserInput : public QObject
 	Q_OBJECT
 
 public:
+	/// Type alias.
+	using CommandQueue = std::queue<CommandShPtr>;
+
+public:
 	/// Constructor.
 	explicit UserInput(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 public:
 	/// Processes user input info - sequence of keyboard keys.
-	CommandShPtr Process();
+	CommandShPtr process();
 
 public slots:
 	/// Receives command that has been entered.
-	void OnReceive(CommandShPtr cmd);
+	void onReceive(CommandShPtr cmd);
 
 private:
-	/// Command list.
-	std::queue<CommandShPtr> _cmds;
-	/// Object provides exclusive access to command list.
-	std::mutex _mut;
+	/// Command queue.
+	CommandQueue _cmds;
 };
 
 #endif // _BATTLECITY_USERINPUT_H_

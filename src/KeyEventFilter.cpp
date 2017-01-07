@@ -6,8 +6,10 @@
 
 #include "include/Command.h"
 
-KeyEventFilter::KeyEventFilter(QObject *parent) Q_DECL_NOEXCEPT
+KeyEventFilter::KeyEventFilter(TankShPtr userTank, QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
+	, _keys{}
+	, _userTank{ userTank }
 {
 }
 
@@ -53,30 +55,25 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 
 	if (result) {
 		for (const auto& key : _keys) {
-			Q_EMIT Send(MakeCommand(key));
+			Q_EMIT send(makeCommand(key));
 		}
 	}
 
 	return result;
 }
 
-KeyEventFilter::KeyCode KeyEventFilter::GetKey(QEvent* event) const
-{
-	return static_cast<QKeyEvent *>(event)->key();
-}
-
-CommandShPtr KeyEventFilter::MakeCommand(const KeyCode key) const
+CommandShPtr KeyEventFilter::makeCommand(const KeyCode key) const
 {
 	if (key == Qt::Key_Left) {
-		return std::make_shared<MoveLeftCommand>();
+		return std::make_shared<MoveLeftCommand>(_userTank);
 	} else if (key == Qt::Key_Up) {
-		return std::make_shared<MoveUpCommand>();
+		return std::make_shared<MoveUpCommand>(_userTank);
 	} else if (key == Qt::Key_Right) {
-		return std::make_shared<MoveRightCommand>();
+		return std::make_shared<MoveRightCommand>(_userTank);
 	} else if (key == Qt::Key_Down) {
-		return std::make_shared<MoveDownCommand>();
+		return std::make_shared<MoveDownCommand>(_userTank);
 	} else if (key == Qt::Key_Space) {
-		return std::make_shared<ShotCommand>();
+		return std::make_shared<ShotCommand>(_userTank);
 	} else {
 		return std::make_shared<NoCommand>();
 	}

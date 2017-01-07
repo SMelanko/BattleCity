@@ -21,19 +21,19 @@ public:
 
 private:
 	/// Runs game main loop.
-	void MainLoop();
+	void mainLoop();
 	/// Draws the game.
-	void Render();
+	void render();
 	/// Starts game.
-	void Start();
+	void start();
 	/// Stops game.
-	void Stop();
+	void stop();
 	/// Advances the game simulation one step.
-	void Update(CommandShPtr cmd);
+	void update(CommandShPtr cmd);
 
 private:
 	/// (Milliseconds in 1 second) / FPS.
-	const double MS_PER_UPDATE = 1000.0 / 60.0;
+	const double MS_PER_UPDATE = 1000.0 / 50.0;
 
 	/// User input handler.
 	UserInput _ui;
@@ -44,6 +44,8 @@ private:
 	std::atomic<bool> _running;
 	/// Thread for main loop.
 	std::thread _mlThread;
+
+	TankShPtr _userTank;
 };
 
 #endif // _BATTLECITY_GAME_H_

@@ -5,9 +5,14 @@
         <file>stage/stage-1.dat</file>
         <file>qml/component/BrickWall.qml</file>
         <file>qml/component/ConcreteWall.qml</file>
-        <file>qml/component/Ground.qml</file>
         <file>qml/component/Ice.qml</file>
         <file>qml/component/Water.qml</file>
         <file>qml/component/Wood.qml</file>
+        <file>img/tank-enemy-jun.png</file>
+        <file>img/tank-enemy-mid.png</file>
+        <file>img/tank-enemy-sen.png</file>
+        <file>img/tank-enemy-weak.png</file>
+        <file>img/tank-user.png</file>
+        <file>qml/Tank.qml</file>
     </qresource>
 </RCC>

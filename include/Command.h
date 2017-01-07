@@ -1,6 +1,8 @@
 #ifndef _BATTLECITY_COMMAND_H_
 #define _BATTLECITY_COMMAND_H_
 
+#include "include/Tank.h"
+
 #include <memory>
 
 ///
@@ -10,14 +12,15 @@
 class Command
 {
 public:
-	virtual ~Command() noexcept = default;
+	/// Destructor.
+	virtual ~Command() Q_DECL_NOEXCEPT = default;
 
 public:
 	/// Executes action.
-	virtual void Execute() noexcept = 0;
+	virtual void execute() Q_DECL_NOEXCEPT = 0;
 };
 
-using CommandUnPtr = std::unique_ptr<Command>;
+/// Command type alias.
 using CommandShPtr = std::shared_ptr<Command>;
 
 ///
@@ -27,8 +30,16 @@ using CommandShPtr = std::shared_ptr<Command>;
 class MoveLeftCommand : public Command
 {
 public:
+	/// Constructor.
+	explicit MoveLeftCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+
+public:
 	/// Executes moving left.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
+
+private:
+	/// Instance of the user tank.
+	TankShPtr _tank;
 };
 
 ///
@@ -38,8 +49,16 @@ public:
 class MoveUpCommand : public Command
 {
 public:
+	/// Constructor.
+	explicit MoveUpCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+
+public:
 	/// Executes moving up.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
+
+private:
+	/// Instance of the user tank.
+	TankShPtr _tank;
 };
 
 ///
@@ -49,8 +68,16 @@ public:
 class MoveRightCommand : public Command
 {
 public:
+	/// Constructor.
+	explicit MoveRightCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+
+public:
 	/// Executes moving right.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
+
+private:
+	/// Instance of the user tank.
+	TankShPtr _tank;
 };
 
 ///
@@ -60,8 +87,16 @@ public:
 class MoveDownCommand : public Command
 {
 public:
+	/// Constructor.
+	explicit MoveDownCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+
+public:
 	/// Executes moving down.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
+
+private:
+	/// Instance of the user tank.
+	TankShPtr _tank;
 };
 
 ///
@@ -71,8 +106,16 @@ public:
 class ShotCommand : public Command
 {
 public:
+	/// Constructor.
+	explicit ShotCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+
+public:
 	/// Executes tank's shot.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
+
+private:
+	/// Instance of the user tank.
+	TankShPtr _tank;
 };
 
 ///
@@ -83,18 +126,7 @@ class NoCommand : public Command
 {
 public:
 	/// Executes nothing.
-	void Execute() noexcept override;
-};
-
-///
-/// The PauseCommand class.
-///
-
-class PauseCommand : public Command
-{
-public:
-	/// Executes pause in the game.
-	void Execute() noexcept override;
+	void execute() Q_DECL_NOEXCEPT Q_DECL_OVERRIDE;
 };
 
 #endif // _BATTLECITY_COMMAND_H_

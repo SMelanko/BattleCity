@@ -20,28 +20,29 @@ class KeyEventFilter : public QObject
 public:
 	/// Type alias.
 	using KeyCode = int;
+	using KeyCodeSet = std::set<KeyCode>;
 
 public:
 	/// Constructor.
-	explicit KeyEventFilter(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+	KeyEventFilter(TankShPtr userTank, QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 Q_SIGNALS:
 	/// Emits command that has been entered.
-	void Send(CommandShPtr cmd);
+	void send(CommandShPtr cmd);
 
 protected:
 	/// Handles key press events.
 	bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
 
 private:
-	/// Gets key code from the event object.
-	KeyCode GetKey(QEvent* event) const;
 	/// Creates command according to pressed key.
-	CommandShPtr MakeCommand(const KeyCode key) const;
+	CommandShPtr makeCommand(const KeyCode key) const;
 
 private:
 	/// Set of pressed keys.
-	std::set<KeyCode> _keys;
+	KeyCodeSet _keys;
+	/// Instance of the user tank.
+	TankShPtr _userTank;
 };
 
 #endif // _BATTLECITY_KEYEVENTFILTER_H_

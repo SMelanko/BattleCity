@@ -7,6 +7,7 @@ HEADERS += \
     include/Clock.h \
     include/Game.h \
     include/KeyEventFilter.h \
+    include/Tank.h \
     include/UserInput.h
 
 SOURCES += \
@@ -14,6 +15,7 @@ SOURCES += \
     src/Game.cpp \
     src/KeyEventFilter.cpp \
     src/Main.cpp \
+    src/Tank.cpp \
     src/UserInput.cpp
 
 RESOURCES += \
