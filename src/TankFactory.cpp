@@ -7,7 +7,7 @@ TankShPtr UserTankFactory::create() const
 	Tank::Health health = 100;
 	Tank::Armor arm = 100;
 	Tank::FireRate fr = 1;
-	Tank::Velocity vel = 3;
+	Tank::Velocity vel = 10;
 	Tank::BodyImg body = QLatin1String{ "../img/tank-user.png" };
 
 	return std::make_shared<Tank>(coord, direct, health, arm, fr, vel, body);
