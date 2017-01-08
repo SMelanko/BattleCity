@@ -2,14 +2,14 @@
 
 TankShPtr UserTankFactory::create() const
 {
-	Tank::Coordinates coord = { 10, 10 };
-	Tank::Direction direct = Tank::UP;
-	Tank::Health health = 100;
-	Tank::Lives lives = 3;
-	Tank::Armor arm = 100;
-	Tank::FireRate fr = 1;
-	Tank::Velocity vel = 10;
-	Tank::BodyImg body = QLatin1String{ "../img/tank-user.png" };
+	Q_DECL_CONSTEXPR Tank::Coordinates coord = { 100, 100 };
+	Q_DECL_CONSTEXPR Tank::Direction direct = Tank::UP;
+	Q_DECL_CONSTEXPR Tank::Health health = 100;
+	Q_DECL_CONSTEXPR Tank::Lives lives = 3;
+	Q_DECL_CONSTEXPR Tank::Armor arm = 100;
+	Q_DECL_CONSTEXPR Tank::FireRate fr = 1;
+	Q_DECL_CONSTEXPR Tank::Velocity vel = 10;
+	Tank::BodyImg body = QStringLiteral("../img/tank-user.png");
 
 	return std::make_shared<Tank>(coord, direct, health, lives, arm, fr, vel, body);
 }
