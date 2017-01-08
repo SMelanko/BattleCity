@@ -40,8 +40,6 @@ private:
 	/// GUI engine.
 	QQmlApplicationEngine _engine;
 
-	/// TODO: Game state. Just for now.
-	std::atomic<bool> _running;
 	/// Thread for main loop.
 	std::thread _mlThread;
 

@@ -18,6 +18,7 @@ class Tank : public QObject
 	Q_PROPERTY(Coordinates coord READ coordinates WRITE setCoordinates NOTIFY coordinatesChanged)
 	Q_PROPERTY(Direction direct READ direction WRITE setDirection NOTIFY directionChanged)
 	Q_PROPERTY(Health health READ health WRITE setHealth NOTIFY healthChanged)
+	Q_PROPERTY(Lives lives READ lives WRITE setLives NOTIFY livesChanged)
 	Q_PROPERTY(Armor armor READ armor WRITE setArmor NOTIFY armorChanged)
 	Q_PROPERTY(FireRate fireRate READ fireRate WRITE setFireRate NOTIFY fireRateChanged)
 	Q_PROPERTY(Velocity velocity READ velocity WRITE setVelocity NOTIFY velocityChanged)
@@ -27,6 +28,7 @@ public:
 	/// Type alias.
 	using Coordinates = QPoint;
 	using Health = uint16_t;
+	using Lives = uint16_t;
 	using Armor = uint16_t;
 	using FireRate = uint16_t;
 	using Velocity = uint16_t;
@@ -49,14 +51,21 @@ public:
 	explicit Tank(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 	/// Constructor.
 	Tank(const Coordinates& coord, const Direction direct, const Health health,
-		const Armor arm, const FireRate fr, const Velocity vel,
+		const Lives lives, const Armor arm, const FireRate fr, const Velocity vel,
 		const BodyImg& body, QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 public:
+	/// Tank's death.
+	void explosion() Q_DECL_NOEXCEPT;
+	/// Returns true if tank is alive.
+	bool isAlive() const Q_DECL_NOEXCEPT;
 	/// Moves tank.
-	void Move(const int x, const int y);
+	void move(const int x, const int y);
 	/// Makes a shot.
-	void Shot();
+	void shot();
+
+	/// Makes tank rendering.
+	void render();
 
 	/// Returns tank's coordinates.
 	Coordinates coordinates() const Q_DECL_NOEXCEPT;
@@ -64,6 +73,8 @@ public:
 	Direction direction() const Q_DECL_NOEXCEPT;
 	/// Returns tank's health value.
 	Health health() const Q_DECL_NOEXCEPT;
+	/// Returns tank's lives value.
+	Lives lives() const Q_DECL_NOEXCEPT;
 	/// Returns tank's armor value.
 	Armor armor() const Q_DECL_NOEXCEPT;
 	/// Returns tank's fire rate value.
@@ -79,6 +90,8 @@ public:
 	void setDirection(const Direction direct);
 	/// Sets new tank health value.
 	void setHealth(const Health health);
+	/// Sets new tank lives value.
+	void setLives(const Lives lives);
 	/// Sets new tank armor value.
 	void setArmor(const Armor arm);
 	/// Sets new tank fire rate value.
@@ -95,6 +108,8 @@ Q_SIGNALS:
 	void directionChanged(const Direction newDirect);
 	/// Tank's health value was changed.
 	void healthChanged();
+	/// Tank's lives value was changed.
+	void livesChanged();
 	/// Tank's armor value was changed.
 	void armorChanged();
 	/// Tank's fire rate value was changed.
@@ -115,6 +130,8 @@ private:
 	Direction _direct;
 	/// Tank's "health".
 	Health _health;
+	/// Tank's lives.
+	Lives _lives;
 	/// Tank's armor.
 	Armor _arm ;
 	/// Tank's fire rate - shots per second.
@@ -123,6 +140,10 @@ private:
 	Velocity _vel;
 	/// Tank's body image.
 	BodyImg _body;
+
+	/// Render flags.
+	bool _flagDirection;
+	bool _flagMove;
 };
 
 /// Tank alias.
@@ -131,6 +152,17 @@ using TankShPtr = std::shared_ptr<Tank>;
 ///
 /// Inline implementation of the Tank class methods.
 ///
+
+inline void Tank::explosion() Q_DECL_NOEXCEPT
+{
+	setHealth(0);
+	setLives(0);
+}
+
+inline bool Tank::isAlive() const Q_DECL_NOEXCEPT
+{
+	return lives() > 0 && health() > 0;
+}
 
 inline Tank::Coordinates Tank::coordinates() const Q_DECL_NOEXCEPT
 {
@@ -145,6 +177,11 @@ inline Tank::Direction Tank::direction() const Q_DECL_NOEXCEPT
 inline Tank::Health Tank::health() const Q_DECL_NOEXCEPT
 {
 	return _health;
+}
+
+inline Tank::Lives Tank::lives() const Q_DECL_NOEXCEPT
+{
+	return _lives;
 }
 
 inline Tank::Armor Tank::armor() const Q_DECL_NOEXCEPT
@@ -177,13 +214,18 @@ inline void Tank::setDirection(const Tank::Direction direct)
 	if (_direct != direct) {
 		_direct = direct;
 
-		Q_EMIT directionChanged(_direct);
+		_flagDirection = true;
 	}
 }
 
 inline void Tank::setHealth(const Tank::Health health)
 {
 	_health = health;
+}
+
+inline void Tank::setLives(const Lives lives)
+{
+	_lives = lives;
 }
 
 inline void Tank::setArmor(const Tank::Armor arm)

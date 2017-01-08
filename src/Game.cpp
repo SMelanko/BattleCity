@@ -27,7 +27,7 @@ Game::~Game() Q_DECL_NOEXCEPT
 
 void Game::mainLoop()
 {
-	while (_running) {
+	while (_userTank->isAlive()) {
 		const auto start = Clock<>::now();
 
 		auto cmd = _ui.process();
@@ -45,18 +45,18 @@ void Game::mainLoop()
 
 void Game::render()
 {
+	_userTank->render();
 }
 
 void Game::start()
 {
-	_running = true;
 	_mlThread = std::thread{ &Game::mainLoop, this };
 }
 
 void Game::stop()
 {
 	if (_mlThread.joinable()) {
-		_running = false;
+		_userTank->explosion(); // TODO: Just for now.
 		_mlThread.join();
 	}
 }
