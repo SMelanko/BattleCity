@@ -8,6 +8,7 @@
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }
 {
+	_field.loadStage(1);
 	_userTank = UserTankFactory{}.create();
 
 	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };

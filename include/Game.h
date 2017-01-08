@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 
 #include "include/Command.h"
+#include "include/Field.h"
 #include "include/UserInput.h"
 
 #include <thread>
@@ -45,6 +46,8 @@ private:
 
 	/// Instance of the user tank.
 	TankShPtr _userTank;
+	/// Battle field.
+	Field _field;
 };
 
 #endif // _BATTLECITY_GAME_H_

@@ -46,10 +46,12 @@ void Tank::render()
 {
 	if (_flagDirection) {
 		Q_EMIT directionChanged(_direct);
+		_flagDirection = false;
 	}
 
 	if (_flagMove) {
 		Q_EMIT coordinatesChanged(_coord);
+		_flagMove = false;
 	}
 }
 

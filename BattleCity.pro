@@ -5,6 +5,7 @@ CONFIG += c++11
 HEADERS += \
     include/Command.h \
     include/Clock.h \
+    include/Field.h \
     include/Game.h \
     include/KeyEventFilter.h \
     include/Tank.h \
@@ -13,12 +14,13 @@ HEADERS += \
 
 SOURCES += \
     src/Command.cpp \
+    src/Field.cpp \
     src/Game.cpp \
     src/KeyEventFilter.cpp \
     src/Main.cpp \
     src/Tank.cpp \
     src/TankFactory.cpp \
-    src/UserInput.cpp \
+    src/UserInput.cpp
 
 RESOURCES += \
     resrc/Project.qrc
