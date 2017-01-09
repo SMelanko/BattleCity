@@ -16,13 +16,6 @@ void Field::loadStage(const int num)
 
 	QTextStream in(&file);
 	while (!in.atEnd()) {
-		const QString line = in.readLine();
-
-		QVector<QChar> vec(line.size());
-		for (int i = 0; i < line.size(); ++i) {
-			vec.push_back(line[i]);
-		}
-
-		_field.push_back(std::move(vec));
+		_field.push_back(in.readLine());
 	}
 }

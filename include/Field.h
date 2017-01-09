@@ -10,7 +10,7 @@ class Field : public QObject
 
 public:
 	/// Type alias.
-	using FieldType = QVector<QVector<QChar>>;
+	using FieldType = QVector<QString>;
 
 public:
 	/// Constructor.
