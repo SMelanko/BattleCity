@@ -1,3 +1,4 @@
+#include "include/Clock.h"
 #include "include/Tank.h"
 
 #include <QQmlContext>
@@ -9,7 +10,7 @@ Tank::Tank(QObject *parent) Q_DECL_NOEXCEPT
 }
 
 Tank::Tank(const Coordinates& coord, const Direction direct, const Health health,
-	const Lives lives, const Armor arm, const FireRate fr, const Velocity vel,
+	const Lives lives, const Armor arm, const ReloadingTime rt, const Velocity vel,
 	const BodyImg& body, QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
 	, _coord{ coord }
@@ -17,7 +18,7 @@ Tank::Tank(const Coordinates& coord, const Direction direct, const Health health
 	, _health{ health }
 	, _lives{ lives }
 	, _arm{ arm }
-	, _fr{ fr }
+	, _rt{ rt }
 	, _vel{ vel }
 	, _body{ body }
 {
@@ -39,7 +40,13 @@ void Tank::move(const int x, const int y)
 
 void Tank::shot()
 {
-	qDebug() << QStringLiteral("Tank::shot()");
+	// For the first shot we should assign time point from past to make a shot.
+	static auto lastShotTime = Clock<>::now() - std::chrono::milliseconds{ 500 };
+
+	if (Clock<>::duration(lastShotTime, Clock<>::now()) > _rt) {
+		qDebug() << QStringLiteral("Tank::shot()");
+		lastShotTime = Clock<>::now();
+	}
 }
 
 void Tank::render()

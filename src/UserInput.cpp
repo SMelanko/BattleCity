@@ -6,19 +6,31 @@ UserInput::UserInput(QObject *parent) Q_DECL_NOEXCEPT
 {
 }
 
-void UserInput::onReceive(CommandShPtr cmd)
+void UserInput::onRemoveMoveCommand()
 {
-	_cmds.push(cmd);
+	if (_cmds[0]) {
+		_cmds[0].reset();
+	}
 }
 
-CommandShPtr UserInput::process()
+void UserInput::onRemoveShotCommand()
 {
-	CommandShPtr cmd = Q_NULLPTR;
-
-	if (!_cmds.empty()) {
-		cmd = _cmds.front();
-		_cmds.pop();
+	if (_cmds[1]) {
+		_cmds[1].reset();
 	}
+}
 
-	return (cmd) ? cmd : std::make_shared<NoCommand>();
+void UserInput::onSetMoveCommand(CommandShPtr cmd)
+{
+	_cmds[0] = cmd;
+}
+
+void UserInput::onSetShotCommand(CommandShPtr cmd)
+{
+	_cmds[1] = cmd;
+}
+
+UserInput::CommandArray UserInput::process()
+{
+	return _cmds;
 }

@@ -13,7 +13,10 @@ Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 
 	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };
 	installEventFilter(kef);
-	QObject::connect(kef, &KeyEventFilter::send, &_ui, &UserInput::onReceive);
+	QObject::connect(kef, &KeyEventFilter::setMoveCommand, &_ui, &UserInput::onSetMoveCommand);
+	QObject::connect(kef, &KeyEventFilter::setShotCommand, &_ui, &UserInput::onSetShotCommand);
+	QObject::connect(kef, &KeyEventFilter::removeMoveCommand, &_ui, &UserInput::onRemoveMoveCommand);
+	QObject::connect(kef, &KeyEventFilter::removeShotCommand, &_ui, &UserInput::onRemoveShotCommand);
 
 	_engine.rootContext()->setContextProperty("userTank", _userTank.get());
 	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
@@ -31,8 +34,8 @@ void Game::mainLoop()
 	while (_userTank->isAlive()) {
 		const auto start = Clock<>::now();
 
-		auto cmd = _ui.process();
-		update(cmd);
+		auto cmds = _ui.process();
+		update(cmds);
 		render();
 
 		const auto end = Clock<>::now();
@@ -62,7 +65,11 @@ void Game::stop()
 	}
 }
 
-void Game::update(CommandShPtr cmd)
+void Game::update(UserInput::CommandArray cmds)
 {
-	cmd->execute();
+	for (const auto& cmd : cmds) {
+		if (cmd) {
+			cmd->execute();
+		}
+	}
 }

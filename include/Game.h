@@ -30,11 +30,11 @@ private:
 	/// Stops game.
 	void stop();
 	/// Advances the game simulation one step.
-	void update(CommandShPtr cmd);
+	void update(UserInput::CommandArray cmds);
 
 private:
 	/// (Milliseconds in 1 second) / FPS.
-	const double MS_PER_UPDATE = 1000.0 / 50.0;
+	const double MS_PER_UPDATE = 1000.0 / 20.0;
 
 	/// User input handler.
 	UserInput _ui;

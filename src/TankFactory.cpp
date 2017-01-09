@@ -7,7 +7,7 @@ TankShPtr UserTankFactory::create() const
 	Q_DECL_CONSTEXPR Tank::Health health = 100;
 	Q_DECL_CONSTEXPR Tank::Lives lives = 3;
 	Q_DECL_CONSTEXPR Tank::Armor arm = 100;
-	Q_DECL_CONSTEXPR Tank::FireRate fr = 1;
+	Q_DECL_CONSTEXPR Tank::ReloadingTime fr = 500.0;
 	Q_DECL_CONSTEXPR Tank::Velocity vel = 10;
 	Tank::BodyImg body = QStringLiteral("../img/tank-user.png");
 

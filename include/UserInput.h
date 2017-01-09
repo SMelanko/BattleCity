@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-#include <queue>
+#include <array>
 
 ///
 /// The UserInput class.
@@ -17,7 +17,7 @@ class UserInput : public QObject
 
 public:
 	/// Type alias.
-	using CommandQueue = std::queue<CommandShPtr>;
+	using CommandArray = std::array<CommandShPtr, 2>;
 
 public:
 	/// Constructor.
@@ -25,15 +25,18 @@ public:
 
 public:
 	/// Processes user input info - sequence of keyboard keys.
-	CommandShPtr process();
+	CommandArray process();
 
 public slots:
 	/// Receives command that has been entered.
-	void onReceive(CommandShPtr cmd);
+	void onSetMoveCommand(CommandShPtr cmd);
+	void onSetShotCommand(CommandShPtr cmd);
+	void onRemoveMoveCommand();
+	void onRemoveShotCommand();
 
 private:
 	/// Command queue.
-	CommandQueue _cmds;
+	CommandArray _cmds;
 };
 
 #endif // _BATTLECITY_USERINPUT_H_

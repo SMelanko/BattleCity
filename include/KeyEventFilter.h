@@ -20,7 +20,6 @@ class KeyEventFilter : public QObject
 public:
 	/// Type alias.
 	using KeyCode = int;
-	using KeyCodeSet = std::set<KeyCode>;
 
 public:
 	/// Constructor.
@@ -28,7 +27,10 @@ public:
 
 Q_SIGNALS:
 	/// Emits command that has been entered.
-	void send(CommandShPtr cmd);
+	void setMoveCommand(CommandShPtr cmd);
+	void setShotCommand(CommandShPtr cmd);
+	void removeMoveCommand();
+	void removeShotCommand();
 
 protected:
 	/// Handles key press events.
@@ -39,8 +41,6 @@ private:
 	CommandShPtr makeCommand(const KeyCode key) const;
 
 private:
-	/// Set of pressed keys.
-	KeyCodeSet _keys;
 	/// Instance of the user tank.
 	TankShPtr _userTank;
 };

@@ -20,7 +20,7 @@ class Tank : public QObject
 	Q_PROPERTY(Health health READ health WRITE setHealth NOTIFY healthChanged)
 	Q_PROPERTY(Lives lives READ lives WRITE setLives NOTIFY livesChanged)
 	Q_PROPERTY(Armor armor READ armor WRITE setArmor NOTIFY armorChanged)
-	Q_PROPERTY(FireRate fireRate READ fireRate WRITE setFireRate NOTIFY fireRateChanged)
+	Q_PROPERTY(ReloadingTime reloadingTime READ reloadingTime WRITE setReloadingTime NOTIFY reloadingTimeChanged)
 	Q_PROPERTY(Velocity velocity READ velocity WRITE setVelocity NOTIFY velocityChanged)
 	Q_PROPERTY(BodyImg body READ bodyImg WRITE setBodyImg NOTIFY bodyImgChanged)
 
@@ -30,7 +30,7 @@ public:
 	using Health = uint16_t;
 	using Lives = uint16_t;
 	using Armor = uint16_t;
-	using FireRate = uint16_t;
+	using ReloadingTime = double;
 	using Velocity = uint16_t;
 	using BodyImg = QString;
 
@@ -51,7 +51,7 @@ public:
 	explicit Tank(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 	/// Constructor.
 	Tank(const Coordinates& coord, const Direction direct, const Health health,
-		const Lives lives, const Armor arm, const FireRate fr, const Velocity vel,
+		const Lives lives, const Armor arm, const ReloadingTime rt, const Velocity vel,
 		const BodyImg& body, QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 public:
@@ -77,8 +77,8 @@ public:
 	Lives lives() const Q_DECL_NOEXCEPT;
 	/// Returns tank's armor value.
 	Armor armor() const Q_DECL_NOEXCEPT;
-	/// Returns tank's fire rate value.
-	FireRate fireRate() const Q_DECL_NOEXCEPT;
+	/// Returns tank's reloading time value.
+	ReloadingTime reloadingTime() const Q_DECL_NOEXCEPT;
 	/// Returns tank's velocity value.
 	Velocity velocity() const Q_DECL_NOEXCEPT;
 	/// Returns tank's body image.
@@ -87,15 +87,15 @@ public:
 	/// Sets new tank coordinates.
 	void setCoordinates(const Coordinates& coord);
 	/// Sets new tank direction.
-	void setDirection(const Direction direct);
+	bool setDirection(const Direction direct);
 	/// Sets new tank health value.
 	void setHealth(const Health health);
 	/// Sets new tank lives value.
 	void setLives(const Lives lives);
 	/// Sets new tank armor value.
 	void setArmor(const Armor arm);
-	/// Sets new tank fire rate value.
-	void setFireRate(const FireRate fr);
+	/// Sets new tank reloading time value.
+	void setReloadingTime(const ReloadingTime rt);
 	/// Sets new tank velocity value.
 	void setVelocity(const Velocity vel);
 	/// Sets new tank body image.
@@ -112,8 +112,8 @@ Q_SIGNALS:
 	void livesChanged();
 	/// Tank's armor value was changed.
 	void armorChanged();
-	/// Tank's fire rate value was changed.
-	void fireRateChanged();
+	/// Tank's reloading time value was changed.
+	void reloadingTimeChanged();
 	/// Tank's velocity value was changed.
 	void velocityChanged();
 	/// Tank's body image was changed.
@@ -134,8 +134,8 @@ private:
 	Lives _lives;
 	/// Tank's armor.
 	Armor _arm ;
-	/// Tank's fire rate - shots per second.
-	FireRate _fr;
+	/// Tank's reloading value - 1 shot per _rt (milliseconds).
+	ReloadingTime _rt;
 	/// Tank's velocity - pixels per step.
 	Velocity _vel;
 	/// Tank's body image.
@@ -189,9 +189,9 @@ inline Tank::Armor Tank::armor() const Q_DECL_NOEXCEPT
 	return _arm;
 }
 
-inline Tank::FireRate Tank::fireRate() const Q_DECL_NOEXCEPT
+inline Tank::ReloadingTime Tank::reloadingTime() const Q_DECL_NOEXCEPT
 {
-	return _fr;
+	return _rt;
 }
 
 inline Tank::Velocity Tank::velocity() const Q_DECL_NOEXCEPT
@@ -209,13 +209,15 @@ inline void Tank::setCoordinates(const Tank::Coordinates& coord)
 	_coord = coord;
 }
 
-inline void Tank::setDirection(const Tank::Direction direct)
+inline bool Tank::setDirection(const Tank::Direction direct)
 {
 	if (_direct != direct) {
 		_direct = direct;
 
 		_flagDirection = true;
 	}
+
+	return _flagDirection;
 }
 
 inline void Tank::setHealth(const Tank::Health health)
@@ -233,9 +235,9 @@ inline void Tank::setArmor(const Tank::Armor arm)
 	_arm = arm;
 }
 
-inline void Tank::setFireRate(const Tank::FireRate fr)
+inline void Tank::setReloadingTime(const Tank::ReloadingTime fr)
 {
-	_fr = fr;
+	_rt = fr;
 }
 
 inline void Tank::setVelocity(const Tank::Velocity vel)

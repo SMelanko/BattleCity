@@ -8,7 +8,6 @@
 
 KeyEventFilter::KeyEventFilter(TankShPtr userTank, QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
-	, _keys{}
 	, _userTank{ userTank }
 {
 }
@@ -21,17 +20,16 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		//qDebug() << QStringLiteral("QEvent::KeyPress");
-
 		switch (key) {
 		case Qt::Key_Left:
 		case Qt::Key_Up:
 		case Qt::Key_Right:
 		case Qt::Key_Down:
+			setMoveCommand(makeCommand(key));
+			result = true;
+			break;
 		case Qt::Key_Space:
-			if (!ke->isAutoRepeat()) {
-				_keys.insert(key);
-			}
+			setShotCommand(makeCommand(key));
 			result = true;
 			break;
 		}
@@ -39,23 +37,18 @@ bool KeyEventFilter::eventFilter(QObject *, QEvent *event)
 		QKeyEvent *ke = static_cast<QKeyEvent *>(event);
 		const auto key = ke->key();
 
-		//qDebug() << QStringLiteral("QEvent::KeyRelease");
-
 		switch (key) {
 		case Qt::Key_Left:
 		case Qt::Key_Up:
 		case Qt::Key_Right:
 		case Qt::Key_Down:
-		case Qt::Key_Space:
-			_keys.erase(key);
+			removeMoveCommand();
 			result = true;
 			break;
-		}
-	}
-
-	if (result) {
-		for (const auto& key : _keys) {
-			Q_EMIT send(makeCommand(key));
+		case Qt::Key_Space:
+			removeShotCommand();
+			result = true;
+			break;
 		}
 	}
 
