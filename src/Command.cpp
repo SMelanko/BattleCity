@@ -7,6 +7,7 @@ MoveLeftCommand::MoveLeftCommand(TankShPtr tank) Q_DECL_NOEXCEPT
 
 void MoveLeftCommand::execute() Q_DECL_NOEXCEPT
 {
+	// If direction was changed - just rotate the tank, else - move it.
 	if (!_tank->setDirection(Tank::LEFT)) {
 		_tank->move(-_tank->velocity(), 0);
 	}
@@ -19,6 +20,7 @@ MoveUpCommand::MoveUpCommand(TankShPtr tank) Q_DECL_NOEXCEPT
 
 void MoveUpCommand::execute() Q_DECL_NOEXCEPT
 {
+	// If direction was changed - just rotate the tank, else - move it.
 	if (!_tank->setDirection(Tank::UP)) {
 		_tank->move(0, -_tank->velocity());
 	}
@@ -31,6 +33,7 @@ MoveRightCommand::MoveRightCommand(TankShPtr tank) Q_DECL_NOEXCEPT
 
 void MoveRightCommand::execute() Q_DECL_NOEXCEPT
 {
+	// If direction was changed - just rotate the tank, else - move it.
 	if (!_tank->setDirection(Tank::RIGHT)) {
 		_tank->move(_tank->velocity(), 0);
 	}
@@ -43,6 +46,7 @@ MoveDownCommand::MoveDownCommand(TankShPtr tank) Q_DECL_NOEXCEPT
 
 void MoveDownCommand::execute() Q_DECL_NOEXCEPT
 {
+	// If direction was changed - just rotate the tank, else - move it.
 	if (!_tank->setDirection(Tank::DOWN)) {
 		_tank->move(0, _tank->velocity());
 	}

@@ -5,26 +5,18 @@ import QtQuick.Layouts 1.0
 import "./component"
 
 ApplicationWindow {
-	id: mainWndId
+	id: _mainWndId
 	visible: true
-	width: 390; height: 360
+	width: 390; height: 390
 	title: qsTr("Battle City")
 	color: "#404040"
 
-	Wood {
-		x: 10; y: 10;
-	}
-	Wood {
-		x: 20; y: 10;
-	}
-	Wood {
-		x: 10; y: 20;
-	}
-	Wood {
-		x: 20; y: 20;
+	Field {
+		id: _fieldId
+		anchors.fill: parent
 	}
 
 	Tank {
-		id: userTankId
+		id: _userTankId
 	}
 }

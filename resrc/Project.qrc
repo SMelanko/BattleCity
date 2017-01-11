@@ -14,5 +14,7 @@
         <file>img/tank-enemy-weak.png</file>
         <file>img/tank-user.png</file>
         <file>qml/Tank.qml</file>
+        <file>js/FieldImpl.js</file>
+        <file>qml/Field.qml</file>
     </qresource>
 </RCC>
