@@ -19,6 +19,7 @@ Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	QObject::connect(kef, &KeyEventFilter::removeShotCommand, &_ui, &UserInput::onRemoveShotCommand);
 
 	_engine.rootContext()->setContextProperty("userTank", _userTank.get());
+	_engine.rootContext()->setContextProperty("field", &_field);
 	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
 
 	start();

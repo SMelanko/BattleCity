@@ -1,5 +1,5 @@
-var _maxFieldRows = 13;
-var _maxFieldColumns = 13;
+var _maxFieldRows = 1;
+var _maxFieldColumns = 1;
 var _maxFieldIndex = _maxFieldColumns * _maxFieldRows;
 var _field = new Array(_maxFieldIndex);
 var _componentSize = 10;
@@ -11,8 +11,16 @@ function index(row, column) {
 }
 
 /// Creates qml component.
-function createBlock(row, column) {
-	if (_qmlComponent == null) {
+function createBlock(item, row, column) {
+	if (item === '0') {
+		_qmlComponent = Qt.createComponent("../qml/component/BrickWall.qml");
+	} else if (item === '1') {
+		_qmlComponent = Qt.createComponent("../qml/component/ConcreteWall.qml");
+	} else if (item === '3') {
+		_qmlComponent = Qt.createComponent("../qml/component/Ice.qml");
+	} else if (item === '4') {
+		_qmlComponent = Qt.createComponent("../qml/component/Water.qml");
+	} else if (item === '5') {
 		_qmlComponent = Qt.createComponent("../qml/component/Wood.qml");
 	}
 
@@ -27,8 +35,6 @@ function createBlock(row, column) {
 
 		dynObj.x = column * _componentSize;
 		dynObj.y = row * _componentSize;
-		dynObj.width = _componentSize;
-		dynObj.height = _componentSize;
 
 		_field[index(row, column)] = dynObj;
 	} else {
@@ -49,9 +55,8 @@ function createField() {
 		}
 	}
 
-	// Calculate board size.
-	_maxFieldRows = 13; // TODO:
-	_maxFieldColumns = 13; // TODO:
+	_maxFieldRows = field.rows();
+	_maxFieldColumns = field.columns();
 	_maxFieldIndex = _maxFieldRows * _maxFieldColumns;
 
 	// Initialize field.
@@ -60,7 +65,10 @@ function createField() {
 	for (var row = 0; row < _maxFieldRows; ++row) {
 		for (var column = 0; column < _maxFieldColumns; ++column) {
 			_field[index(row, column)] = null;
-			createBlock(row, column);
+			var item = field.item(row, column);
+			if (item !== '2') {
+				createBlock(item, row, column);
+			}
 		}
 	}
 }

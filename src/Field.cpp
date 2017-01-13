@@ -7,6 +7,8 @@
 Field::Field(QObject *parent)
 	: QObject{ parent }
 {
+	qRegisterMetaType<Size>("Size");
+	qRegisterMetaType<Component>("Component");
 }
 
 void Field::loadStage(const int num)

@@ -4,25 +4,64 @@
 #include <QObject>
 #include <QVector>
 
+/*
+	Field components type:
+		'0' - brick wall;
+		'1' - concrete wall;
+		'2' - ground;
+		'3' - ice;
+		'4' - water;
+		'5' - wood;
+*/
+
 class Field : public QObject
 {
 	Q_OBJECT
 
 public:
 	/// Type alias.
-	using FieldType = QVector<QString>;
+	using Size = int;
+	using Component = QChar;
+	using Data = QVector<QString>;
 
 public:
 	/// Constructor.
 	explicit Field(QObject *parent = Q_NULLPTR);
 
 public:
+	/// Returns count of the columns.
+	Q_INVOKABLE Size columns() const Q_DECL_NOEXCEPT;
+	/// Returns component's type.
+	Q_INVOKABLE Component item(const Size row,
+		const Size column) const Q_DECL_NOEXCEPT;
 	/// Loads stage.
 	void loadStage(const int num);
+	/// Returns count of the rows.
+	Q_INVOKABLE Size rows() const Q_DECL_NOEXCEPT;
 
 private:
 	/// Internal data structure.
-	FieldType _field;
+	Data _field;
 };
+
+///
+/// Inline implementation of the Field class methods.
+///
+
+inline Field::Size Field::columns() const Q_DECL_NOEXCEPT
+{
+	return _field[0].size();
+}
+
+inline Field::Component Field::item(const Size row,
+	const Size column) const Q_DECL_NOEXCEPT
+{
+	return _field[row][column];
+}
+
+inline Field::Size Field::rows() const Q_DECL_NOEXCEPT
+{
+	return _field.size();
+}
 
 #endif // _BATTLECITY_FIELD_H_
