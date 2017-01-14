@@ -2,7 +2,7 @@
 
 TankShPtr UserTankFactory::create() const
 {
-	Q_DECL_CONSTEXPR Tank::Coordinates coord = { 100, 100 };
+	Q_DECL_CONSTEXPR Tank::Coordinates coord = { 120, 350 };
 	Q_DECL_CONSTEXPR Tank::Direction direct = Tank::UP;
 	Q_DECL_CONSTEXPR Tank::Health health = 100;
 	Q_DECL_CONSTEXPR Tank::Lives lives = 3;
