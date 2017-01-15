@@ -1,7 +1,7 @@
 #ifndef _BATTLECITY_TANK_H_
 #define _BATTLECITY_TANK_H_
 
-class Field;
+#include "include/Field.h"
 
 #include <QDebug>
 #include <QObject>

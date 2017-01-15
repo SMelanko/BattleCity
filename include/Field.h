@@ -35,6 +35,7 @@ public:
 	/// Returns component's type.
 	Q_INVOKABLE Component item(const Size row,
 		const Size column) const Q_DECL_NOEXCEPT;
+	Component item1(const int x, const int y) const Q_DECL_NOEXCEPT;
 	/// Loads stage.
 	void loadStage(const int num);
 	/// Returns count of the rows.
@@ -61,6 +62,12 @@ inline Field::Component Field::item(const Size row,
 	const Size column) const Q_DECL_NOEXCEPT
 {
 	return _field[row][column];
+}
+
+inline Field::Component Field::item1(const int x,
+	const int y) const Q_DECL_NOEXCEPT
+{
+	return _field[y / 10][x / 10];
 }
 
 inline Field::Size Field::rows() const Q_DECL_NOEXCEPT

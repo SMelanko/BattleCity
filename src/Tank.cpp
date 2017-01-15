@@ -1,5 +1,4 @@
 #include "include/Clock.h"
-#include "include/Field.h"
 #include "include/Tank.h"
 
 #include <QQmlContext>
@@ -30,57 +29,38 @@ Tank::Tank(FieldShPtr field, const Coordinates& coord, const Direction direct,
 
 void Tank::move(const int x, const int y)
 {
-	static auto checkFieldBorders = [](int& coord) -> bool {
-		if (coord < 0) {
-			coord = 0;
-			return false;
-		}
-		if (coord > 360) {
-			coord = 360;
-			return false;
-		}
+	static auto checkFieldBorders = [](const int coord) noexcept -> bool {
+		return (0 <= coord && coord <= 360) ? true : false;
+	};
 
-		return true;
+	static auto isObstacle = [](const QChar& item) {
+		return (item == QLatin1Char('0') || item == QLatin1Char('1') ||
+			item == QLatin1Char('4')) ? false : true;
 	};
 
 	static auto checkFieldComponents = [this](int coord) -> bool {
 		constexpr int tsz = 29;
+		Field::Component left, right;
 
 		if (_direct == LEFT) {
 			const auto y = _coord.y();
-			auto item1 = _field->item(y / _vel, coord / _vel);
-			auto item2 = _field->item((y + tsz) / _vel, coord / _vel);
-			if (item1 == '0' || item1 == '1' || item1 == '4' ||
-				item2 == '0' || item2 == '1' || item2 == '4') {
-				return false;
-			}
+			left = _field->item1(coord, (y + tsz));
+			right = _field->item1(coord, y);
 		} else if (_direct == UP) {
 			const auto x = _coord.x();
-			auto item1 = _field->item(coord / _vel, x / _vel);
-			auto item2 = _field->item(coord / _vel, (x + tsz) / _vel);
-			if (item1 == '0' || item1 == '1' || item1 == '4' ||
-				item2 == '0' || item2 == '1' || item2 == '4') {
-				return false;
-			}
+			left = _field->item1(x, coord);
+			right = _field->item1((x + tsz), coord);
 		} else if (_direct == RIGHT) {
 			const auto y = _coord.y();
-			auto item1 = _field->item(y / _vel, (coord + tsz) / _vel);
-			auto item2 = _field->item((y + tsz) / _vel, (coord + tsz) / _vel);
-			if (item1 == '0' || item1 == '1' || item1 == '4' ||
-				item2 == '0' || item2 == '1' || item2 == '4') {
-				return false;
-			}
+			left = _field->item1((coord + tsz), y);
+			right = _field->item1((coord + tsz), (y + tsz));
 		} else if (_direct == DOWN) {
 			const auto x = _coord.x();
-			auto item1 = _field->item((coord + tsz) / _vel, x / _vel);
-			auto item2 = _field->item((coord + tsz) / _vel, (x + tsz) / _vel);
-			if (item1 == '0' || item1 == '1' || item1 == '4' ||
-				item2 == '0' || item2 == '1' || item2 == '4') {
-				return false;
-			}
+			left = _field->item1((x + tsz), (coord + tsz));
+			right = _field->item1(x, (coord + tsz));
 		}
 
-		return true;
+		return (isObstacle(left) && isObstacle(right));;
 	};
 
 	if (x != 0) {
@@ -102,7 +82,7 @@ void Tank::move(const int x, const int y)
 
 void Tank::shot()
 {
-	// For the first shot we should assign time point from past to make a shot.
+	// For the first shot we should assign time point from the past to make a shot.
 	static auto lastShotTime = Clock<>::now() - std::chrono::milliseconds{ 500 };
 
 	if (Clock<>::duration(lastShotTime, Clock<>::now()) > _rt) {
