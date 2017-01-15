@@ -1,15 +1,15 @@
 #include "include/Clock.h"
 #include "include/Game.h"
 #include "include/KeyEventFilter.h"
-#include "include/TankFactory.h"
 
 #include <QQmlContext>
 
 Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	: QGuiApplication{ argc, argv }
 {
-	_field.loadStage(1);
-	_userTank = UserTankFactory{}.create();
+	_field = std::make_shared<Field>();
+	_field->loadStage(1);
+	_userTank = std::make_shared<UserTank>(_field);
 
 	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };
 	installEventFilter(kef);
@@ -19,7 +19,7 @@ Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	QObject::connect(kef, &KeyEventFilter::removeShotCommand, &_ui, &UserInput::onRemoveShotCommand);
 
 	_engine.rootContext()->setContextProperty("userTank", _userTank.get());
-	_engine.rootContext()->setContextProperty("field", &_field);
+	_engine.rootContext()->setContextProperty("field", _field.get());
 	_engine.load(QUrl(QLatin1String("qrc:/qml/Main.qml")));
 
 	start();

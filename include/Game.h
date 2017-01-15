@@ -47,7 +47,7 @@ private:
 	/// Instance of the user tank.
 	TankShPtr _userTank;
 	/// Battle field.
-	Field _field;
+	FieldShPtr _field;
 };
 
 #endif // _BATTLECITY_GAME_H_

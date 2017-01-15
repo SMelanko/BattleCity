@@ -1,6 +1,8 @@
 #ifndef _BATTLECITY_TANK_H_
 #define _BATTLECITY_TANK_H_
 
+class Field;
+
 #include <QDebug>
 #include <QObject>
 #include <QPoint>
@@ -50,9 +52,12 @@ public:
 	/// Constructor.
 	explicit Tank(QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 	/// Constructor.
-	Tank(const Coordinates& coord, const Direction direct, const Health health,
-		const Lives lives, const Armor arm, const ReloadingTime rt, const Velocity vel,
-		const BodyImg& body, QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+	Tank(FieldShPtr field, const Coordinates& coord, const Direction direct,
+		const Health health, const Lives lives, const Armor arm,
+		const ReloadingTime rt, const Velocity vel, const BodyImg& body,
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+	/// Destructor.
+	virtual ~Tank() Q_DECL_NOEXCEPT = default;
 
 public:
 	/// Tank's death.
@@ -124,6 +129,9 @@ private:
 	void registerType();
 
 private:
+	/// Pointer to the field.
+	FieldShPtr _field;
+
 	/// Tank's coordinates.
 	Coordinates _coord;
 	/// Tank's direction.
@@ -249,5 +257,32 @@ inline void Tank::setBodyImg(const Tank::BodyImg& body)
 {
 	_body = body;
 }
+
+namespace tdefs
+{
+	Q_DECL_CONSTEXPR Tank::Coordinates coord = { 120, 350 };
+	Q_DECL_CONSTEXPR Tank::Direction direct = Tank::UP;
+	Q_DECL_CONSTEXPR Tank::Health health = 100;
+	Q_DECL_CONSTEXPR Tank::Lives lives = 3;
+	Q_DECL_CONSTEXPR Tank::Armor arm = 100;
+	Q_DECL_CONSTEXPR Tank::ReloadingTime rt = 500.0;
+	Q_DECL_CONSTEXPR Tank::Velocity vel = 10;
+} // namespace tdefs
+
+///
+/// The UserTank class.
+///
+
+class UserTank : public Tank
+{
+public:
+	/// Constructor.
+	UserTank(FieldShPtr field, const Coordinates& coord = tdefs::coord,
+		const Direction direct = tdefs::direct, const Health health = tdefs::health,
+		const Lives lives = tdefs::lives, const Armor arm = tdefs::arm,
+		const ReloadingTime rt = tdefs::rt, const Velocity vel = tdefs::vel,
+		const BodyImg& body = QStringLiteral("../img/tank-user.png"),
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+};
 
 #endif // _BATTLECITY_TANK_H_

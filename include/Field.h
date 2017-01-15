@@ -12,6 +12,7 @@
 		'3' - ice;
 		'4' - water;
 		'5' - wood;
+		'b' - user base;
 */
 
 class Field : public QObject
@@ -43,6 +44,9 @@ private:
 	/// Internal data structure.
 	Data _field;
 };
+
+/// Field alias.
+using FieldShPtr = std::shared_ptr<Field>;
 
 ///
 /// Inline implementation of the Field class methods.

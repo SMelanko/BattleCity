@@ -22,6 +22,8 @@ function createBlock(item, row, column) {
 		_qmlComponent = Qt.createComponent("../qml/component/Water.qml");
 	} else if (item === '5') {
 		_qmlComponent = Qt.createComponent("../qml/component/Wood.qml");
+	} else if (item === 'b') {
+		_qmlComponent = Qt.createComponent("../qml/component/Base.qml");
 	}
 
 	if (_qmlComponent.status == Component.Ready) {

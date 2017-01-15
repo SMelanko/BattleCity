@@ -16,5 +16,7 @@
         <file>qml/Tank.qml</file>
         <file>js/FieldImpl.js</file>
         <file>qml/Field.qml</file>
+        <file>img/base.png</file>
+        <file>qml/component/Base.qml</file>
     </qresource>
 </RCC>

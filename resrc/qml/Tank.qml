@@ -14,8 +14,8 @@ Item {
 		rotation: 180
 	}
 
-	Behavior on x { SmoothedAnimation { velocity: 120 } }
-	Behavior on y { SmoothedAnimation { velocity: 120 } }
+	Behavior on x { SmoothedAnimation { velocity: 110 } }
+	Behavior on y { SmoothedAnimation { velocity: 110 } }
 
 	Connections {
 		target: userTank
