@@ -285,4 +285,68 @@ public:
 		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 };
 
+///
+/// The WeakEnemyTank class.
+///
+
+class WeakEnemyTank : public Tank
+{
+public:
+	/// Constructor.
+	WeakEnemyTank(FieldShPtr field, const Coordinates& coord = tdefs::coord,
+		const Direction direct = tdefs::direct, const Health health = tdefs::health,
+		const Lives lives = tdefs::lives, const Armor arm = tdefs::arm,
+		const ReloadingTime rt = tdefs::rt, const Velocity vel = tdefs::vel,
+		const BodyImg& body = QStringLiteral("../img/tank-enemy-weak.png"),
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+};
+
+///
+/// The FastEnemyTank class.
+///
+
+class FastEnemyTank : public Tank
+{
+public:
+	/// Constructor.
+	FastEnemyTank(FieldShPtr field, const Coordinates& coord = tdefs::coord,
+		const Direction direct = tdefs::direct, const Health health = tdefs::health,
+		const Lives lives = tdefs::lives, const Armor arm = tdefs::arm,
+		const ReloadingTime rt = tdefs::rt, const Velocity vel = tdefs::vel,
+		const BodyImg& body = QStringLiteral("../img/tank-enemy-jun.png"),
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+};
+
+///
+/// The RapidFireEnemyTank class.
+///
+
+class RapidFireEnemyTank : public Tank
+{
+public:
+	/// Constructor.
+	RapidFireEnemyTank(FieldShPtr field, const Coordinates& coord = tdefs::coord,
+		const Direction direct = tdefs::direct, const Health health = tdefs::health,
+		const Lives lives = tdefs::lives, const Armor arm = tdefs::arm,
+		const ReloadingTime rt = tdefs::rt / 2.0, const Velocity vel = tdefs::vel,
+		const BodyImg& body = QStringLiteral("../img/tank-enemy-mid.png"),
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+};
+
+///
+/// The ArmoredTank class.
+///
+
+class ArmoredTank : public Tank
+{
+public:
+	/// Constructor.
+	ArmoredTank(FieldShPtr field, const Coordinates& coord = tdefs::coord,
+		const Direction direct = tdefs::direct, const Health health = tdefs::health,
+		const Lives lives = tdefs::lives, const Armor arm = tdefs::arm * 4,
+		const ReloadingTime rt = tdefs::rt, const Velocity vel = tdefs::vel,
+		const BodyImg& body = QStringLiteral("../img/tank-enemy-sen.png"),
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+};
+
 #endif // _BATTLECITY_TANK_H_

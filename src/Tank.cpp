@@ -119,3 +119,39 @@ UserTank::UserTank(FieldShPtr field, const Tank::Coordinates& coord,
 	: Tank{ field, coord, direct, health, lives, arm, rt, vel, body, parent }
 {
 }
+
+WeakEnemyTank::WeakEnemyTank(FieldShPtr field, const Tank::Coordinates& coord,
+	const Tank::Direction direct, const Tank::Health health,
+	const Tank::Lives lives, const Tank::Armor arm, const Tank::ReloadingTime rt,
+	const Tank::Velocity vel, const Tank::BodyImg& body,
+	QObject* parent) Q_DECL_NOEXCEPT
+	: Tank{ field, coord, direct, health, lives, arm, rt, vel, body, parent }
+{
+}
+
+FastEnemyTank::FastEnemyTank(FieldShPtr field, const Tank::Coordinates& coord,
+	const Tank::Direction direct, const Tank::Health health,
+	const Tank::Lives lives, const Tank::Armor arm, const Tank::ReloadingTime rt,
+	const Tank::Velocity vel, const Tank::BodyImg& body,
+	QObject* parent) Q_DECL_NOEXCEPT
+	: Tank{ field, coord, direct, health, lives, arm, rt, vel, body, parent }
+{
+}
+
+RapidFireEnemyTank::RapidFireEnemyTank(FieldShPtr field, const Tank::Coordinates& coord,
+	const Tank::Direction direct, const Tank::Health health,
+	const Tank::Lives lives, const Tank::Armor arm, const Tank::ReloadingTime rt,
+	const Tank::Velocity vel, const Tank::BodyImg& body,
+	QObject* parent) Q_DECL_NOEXCEPT
+	: Tank{ field, coord, direct, health, lives, arm, rt, vel, body, parent }
+{
+}
+
+ArmoredTank::ArmoredTank(FieldShPtr field, const Tank::Coordinates& coord,
+	const Tank::Direction direct, const Tank::Health health,
+	const Tank::Lives lives, const Tank::Armor arm, const Tank::ReloadingTime rt,
+	const Tank::Velocity vel, const Tank::BodyImg& body,
+	QObject* parent) Q_DECL_NOEXCEPT
+	: Tank{ field, coord, direct, health, lives, arm, rt, vel, body, parent }
+{
+}
