@@ -3,27 +3,22 @@ var _maxFieldColumns = 1;
 var _maxFieldIndex = _maxFieldColumns * _maxFieldRows;
 var _field = new Array(_maxFieldIndex);
 var _componentSize = 10;
-var _qmlComponent = null;
 
-/// Index function used instead of a 2D array.
-function index(row, column) {
-	return (row * column) + column;
+/// Deletes all field components.
+function clearField() {
+	for (var i = 0; i < _maxFieldIndex; ++i) {
+		if (_field[i] != null) {
+			_field[i].destroy();
+		}
+	}
 }
 
 /// Creates qml component.
-function createBlock(item, row, column) {
-	if (item === '0') {
-		_qmlComponent = Qt.createComponent("../qml/component/BrickWall.qml");
-	} else if (item === '1') {
-		_qmlComponent = Qt.createComponent("../qml/component/ConcreteWall.qml");
-	} else if (item === '3') {
-		_qmlComponent = Qt.createComponent("../qml/component/Ice.qml");
-	} else if (item === '4') {
-		_qmlComponent = Qt.createComponent("../qml/component/Water.qml");
-	} else if (item === '5') {
-		_qmlComponent = Qt.createComponent("../qml/component/Wood.qml");
-	} else if (item === 'b') {
-		_qmlComponent = Qt.createComponent("../qml/component/Base.qml");
+function createComponent(item, row, column) {
+	var _qmlComponent = createComponentFactory(item);
+
+	if (_qmlComponent == null) {
+		return null;
 	}
 
 	if (_qmlComponent.status == Component.Ready) {
@@ -38,24 +33,36 @@ function createBlock(item, row, column) {
 		dynObj.x = column * _componentSize;
 		dynObj.y = row * _componentSize;
 
-		_field[index(row, column)] = dynObj;
+		return dynObj;
 	} else {
-		console.log("error loading block component");
+		console.log("Error loading block component");
 		console.log(_qmlComponent.errorString());
-		return false;
+		return null;
 	}
+}
 
-	return true;
+/// Creates field component.
+function createComponentFactory(item) {
+	if (item === '0') {
+		return Qt.createComponent("../qml/component/BrickWall.qml");
+	} else if (item === '1') {
+		return Qt.createComponent("../qml/component/ConcreteWall.qml");
+	} else if (item === '3') {
+		return Qt.createComponent("../qml/component/Ice.qml");
+	} else if (item === '4') {
+		return Qt.createComponent("../qml/component/Water.qml");
+	} else if (item === '5') {
+		return Qt.createComponent("../qml/component/Wood.qml");
+	} else if (item === 'b') {
+		return Qt.createComponent("../qml/component/Base.qml");
+	} else {
+		return null;
+	}
 }
 
 /// Creates the entire battlefield.
 function createField() {
-	// Delete blocks from previous stage.
-	for (var i = 0; i < _maxFieldIndex; ++i) {
-		if (_field[i] != null) {
-			_field[i].destroy();
-		}
-	}
+	clearField();
 
 	_maxFieldRows = field.rows();
 	_maxFieldColumns = field.columns();
@@ -66,11 +73,13 @@ function createField() {
 
 	for (var row = 0; row < _maxFieldRows; ++row) {
 		for (var column = 0; column < _maxFieldColumns; ++column) {
-			_field[index(row, column)] = null;
 			var item = field.item(row, column);
-			if (item !== '2') {
-				createBlock(item, row, column);
-			}
+			_field[index(row, column)] = createComponent(item, row, column);
 		}
 	}
+}
+
+/// Index function used instead of a 2D array.
+function index(row, column) {
+	return (row * column) + column;
 }

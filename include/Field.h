@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QVector>
 
+#include <memory>
+
 /*
 	Field components type:
 		'0' - brick wall;
