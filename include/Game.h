@@ -48,6 +48,8 @@ private:
 	TankShPtr _userTank;
 	/// Battle field.
 	FieldShPtr _field;
+	/// Shell list.
+	ShellList _shellList;
 };
 
 #endif // _BATTLECITY_GAME_H_

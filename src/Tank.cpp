@@ -25,6 +25,18 @@ Tank::Tank(FieldShPtr field, const Coordinates& coord, const Direction direct,
 	, _body{ body }
 {
 	registerType();
+
+	map();
+}
+
+void Tank::map()
+{
+	for (int x = 0; x < 3; ++x) {
+		for (int y = 0; y < 3; ++y) {
+			_field->setItem(_coord.x() + (x * 10), _coord.y() + (y * 10),
+				QLatin1Char{ 'u' });
+		}
+	}
 }
 
 void Tank::move(const int x, const int y)
@@ -78,17 +90,54 @@ void Tank::move(const int x, const int y)
 			_flagMove = true;
 		}
 	}
+
+	if (_flagMove) {
+		if (_direct == LEFT) {
+			for (int i = 0; i < 3; ++i) {
+				_field->swap(_coord.x(), _coord.y() + (i * 10),
+					_coord.x() + 30, _coord.y() + (i * 10));
+			}
+		} else if (_direct == RIGHT) {
+			for (int i = 0; i < 3; ++i) {
+				_field->swap(_coord.x() - 10, _coord.y() + (i * 10),
+					_coord.x() + 20, _coord.y() + (i * 10));
+			}
+		} else if (_direct == UP) {
+			for (int i = 0; i < 3; ++i) {
+				_field->swap(_coord.x() + (i * 10), _coord.y(),
+					_coord.x() + (i * 10), _coord.y() + 30);
+			}
+		} else if (_direct == DOWN) {
+			for (int i = 0; i < 3; ++i) {
+				_field->swap(_coord.x() + (i * 10), _coord.y() - 10,
+					_coord.x() + (i * 10), _coord.y() + 20);
+			}
+		}
+	}
 }
 
-void Tank::shot()
+ShellShPtr Tank::shot()
 {
 	// For the first shot we should assign time point from the past to make a shot.
 	static auto lastShotTime = Clock<>::now() - std::chrono::milliseconds{ 500 };
 
+	ShellShPtr shell = nullptr;
+
 	if (Clock<>::duration(lastShotTime, Clock<>::now()) > _rt) {
-		qDebug() << QStringLiteral("Tank::shot()");
+		if (_direct == LEFT) {
+			shell = createShell(-10, 10);
+		} else if (_direct == UP) {
+			shell = createShell(10, -10);
+		} else if (_direct == RIGHT) {
+			shell = createShell(30, 10);
+		} else if (_direct == DOWN) {
+			shell = createShell(10, 30);
+		}
+
 		lastShotTime = Clock<>::now();
 	}
+
+	return shell;
 }
 
 void Tank::render()

@@ -6,9 +6,11 @@
 
 #include "include/Command.h"
 
-KeyEventFilter::KeyEventFilter(TankShPtr userTank, QObject *parent) Q_DECL_NOEXCEPT
+KeyEventFilter::KeyEventFilter(TankShPtr userTank, ShellList& shellList,
+	QObject *parent) Q_DECL_NOEXCEPT
 	: QObject{ parent }
 	, _userTank{ userTank }
+	, _shellList{ shellList }
 {
 }
 
@@ -66,7 +68,7 @@ CommandShPtr KeyEventFilter::makeCommand(const KeyCode key) const
 	} else if (key == Qt::Key_Down) {
 		return std::make_shared<MoveDownCommand>(_userTank);
 	} else if (key == Qt::Key_Space) {
-		return std::make_shared<ShotCommand>(_userTank);
+		return std::make_shared<ShotCommand>(_userTank, _shellList);
 	} else {
 		return std::make_shared<NoCommand>();
 	}

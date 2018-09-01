@@ -11,7 +11,7 @@ Game::Game(int argc, char *argv[]) Q_DECL_NOEXCEPT
 	_field->loadStage(1);
 	_userTank = std::make_shared<UserTank>(_field);
 
-	KeyEventFilter* kef = new KeyEventFilter{ _userTank, this };
+	KeyEventFilter* kef = new KeyEventFilter{ _userTank, _shellList, this };
 	installEventFilter(kef);
 	QObject::connect(kef, &KeyEventFilter::setMoveCommand, &_ui, &UserInput::onSetMoveCommand);
 	QObject::connect(kef, &KeyEventFilter::setShotCommand, &_ui, &UserInput::onSetShotCommand);

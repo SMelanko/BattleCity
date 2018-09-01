@@ -23,7 +23,8 @@ public:
 
 public:
 	/// Constructor.
-	KeyEventFilter(TankShPtr userTank, QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
+	KeyEventFilter(TankShPtr userTank, ShellList& shellList,
+		QObject *parent = Q_NULLPTR) Q_DECL_NOEXCEPT;
 
 Q_SIGNALS:
 	/// Emits command that has been entered.
@@ -43,6 +44,8 @@ private:
 private:
 	/// Instance of the user tank.
 	TankShPtr _userTank;
+	/// Shell list.
+	ShellList& _shellList;
 };
 
 #endif // _BATTLECITY_KEYEVENTFILTER_H_

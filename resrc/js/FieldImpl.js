@@ -35,8 +35,9 @@ function createComponent(item, row, column) {
 
 		return dynObj;
 	} else {
-		console.log("Error loading block component");
+		console.log("Error loading qml component");
 		console.log(_qmlComponent.errorString());
+
 		return null;
 	}
 }

@@ -52,14 +52,18 @@ void MoveDownCommand::execute() Q_DECL_NOEXCEPT
 	}
 }
 
-ShotCommand::ShotCommand(TankShPtr tank) Q_DECL_NOEXCEPT
+ShotCommand::ShotCommand(TankShPtr tank, ShellList& shellList) Q_DECL_NOEXCEPT
 	: _tank{ tank }
+	, _shellList{ shellList }
 {
 }
 
 void ShotCommand::execute() Q_DECL_NOEXCEPT
 {
-	_tank->shot();
+	auto shell = _tank->shot();
+	if (shell) {
+		_shellList.add(shell);
+	}
 }
 
 void NoCommand::execute() Q_DECL_NOEXCEPT

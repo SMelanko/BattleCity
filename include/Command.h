@@ -107,7 +107,7 @@ class ShotCommand : public Command
 {
 public:
 	/// Constructor.
-	explicit ShotCommand(TankShPtr tank) Q_DECL_NOEXCEPT;
+	explicit ShotCommand(TankShPtr tank, ShellList& shellList) Q_DECL_NOEXCEPT;
 
 public:
 	/// Executes tank's shot.
@@ -116,6 +116,8 @@ public:
 private:
 	/// Instance of the user tank.
 	TankShPtr _tank;
+	/// Shell list.
+	ShellList& _shellList;
 };
 
 ///

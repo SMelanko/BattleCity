@@ -8,6 +8,7 @@ HEADERS += \
     include/Field.h \
     include/Game.h \
     include/KeyEventFilter.h \
+    include/Shell.h \
     include/Tank.h \
     include/UserInput.h
 
@@ -17,6 +18,7 @@ SOURCES += \
     src/Game.cpp \
     src/KeyEventFilter.cpp \
     src/Main.cpp \
+    src/Shell.cpp \
     src/Tank.cpp \
     src/UserInput.cpp
 

@@ -18,5 +18,8 @@
         <file>qml/Field.qml</file>
         <file>img/base.png</file>
         <file>qml/component/Base.qml</file>
+        <file>img/shell.png</file>
+        <file>qml/Shell.qml</file>
+        <file>js/ShellImpl.js</file>
     </qresource>
 </RCC>

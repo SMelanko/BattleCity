@@ -2,6 +2,7 @@
 #define _BATTLECITY_TANK_H_
 
 #include "include/Field.h"
+#include "include/Shell.h"
 
 #include <QDebug>
 #include <QObject>
@@ -67,7 +68,7 @@ public:
 	/// Moves tank.
 	void move(const int x, const int y);
 	/// Makes a shot.
-	void shot();
+	ShellShPtr shot();
 
 	/// Makes tank rendering.
 	void render();
@@ -127,6 +128,12 @@ Q_SIGNALS:
 private:
 	/// Registers the type name.
 	void registerType();
+	/// Creates a shell.
+	ShellShPtr createShell(const int delX, const int delY) const;
+
+protected:
+	/// Maps tank coordinates.
+	void map();
 
 private:
 	/// Pointer to the field.
@@ -160,6 +167,13 @@ using TankShPtr = std::shared_ptr<Tank>;
 ///
 /// Inline implementation of the Tank class methods.
 ///
+
+inline ShellShPtr Tank::createShell(const int delX, const int delY) const
+{
+	return std::make_shared<Shell>(_field,
+		Shell::Coordinates{ _coord.x() + delX, _coord.y() + delY },
+		static_cast<Shell::Direction>(_direct));
+}
 
 inline void Tank::explosion() Q_DECL_NOEXCEPT
 {
